@@ -3,11 +3,12 @@ import os
 import google.generativeai as genai
 from dotenv import load_dotenv
 
+load_dotenv()
 
 genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
 
 def get_shell_command(prompt):
-    model = genai.GenerativeModel("gemini-pro")
+    model = genai.GenerativeModel("gemini-2.0-flash")
     response = model.generate_content(
         f"""You are a bash assistant. Reply only with a POSIX shell command corresponding to:
 "{prompt}".
