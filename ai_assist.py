@@ -31,7 +31,7 @@ def run_assistant():
     question = " ".join(sys.argv[1:])
     console.print(f"[bold cyan]🧠 Query:[/bold cyan] {question}")
     console.print("[grey]⏳ Sending to Gemini...[/grey]\n")
-
+    # questionary.confirm("Are you amazed?").ask()
     try:
         command = get_command_from_gemini(question)
     except Exception as e:
@@ -50,12 +50,23 @@ def run_assistant():
         ]).ask()
 
     if choice.startswith("1"):
-        console.print("[cyan]▶️ Executing...[/cyan]\n")
-        subprocess.run(command, shell=True)
+        is_confirmed = questionary.confirm("Are you sure you want to execute this command?").ask()
+        if is_confirmed:
+            console.print("[cyan]▶️ Executing...[/cyan]\n")
+            subprocess.run(command, shell=True)
+        # else:
+        #     console.print("[red]🚫 Command cancelled.[/red]")
 
     elif choice.startswith("2"):
         new_cmd = questionary.text("📝 Modify the command:", default=command ).ask()
-        subprocess.run(new_cmd, shell=True)
+        
+        if new_cmd:
+            is_confirmed = questionary.confirm("Are you sure you want to execute this command?").ask()
+            if is_confirmed:
+                console.print("[cyan]▶️ Executing...[/cyan]\n")
+                subprocess.run(new_cmd, shell=True)
+            # else : 
+            #     console.print("[red]🚫 Command cancelled.[/red]")
 
     else:
         console.print("[red]🚫 Command cancelled.[/red]")
