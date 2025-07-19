@@ -70,7 +70,8 @@ def main():
         choices=[
             "1. Execute",
             "2. Modify command",
-            "3. Cancel",
+            "3. Show command with explanation",
+            "4. Exit",
         ],
         style=custom_style
         ).ask(),
