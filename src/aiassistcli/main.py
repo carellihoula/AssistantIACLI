@@ -1,10 +1,10 @@
 import subprocess
 import sys
+from aiassistcli.config import load_api_key, save_api_key, get_command_from_ai
 from rich.console import Console
 from rich.progress import Progress, SpinnerColumn, TextColumn
 import questionary
 from questionary import Style
-from aiassistcli.ai_config import get_command_from_ai
 
 
 console = Console()
@@ -23,10 +23,28 @@ custom_style = Style([
     ('disabled', 'fg:#858585 italic')
 ])
 
+def configure():
+    api_key = questionary.password("🔐 Enter your Gemini API key:", style=custom_style).ask()
+    if not api_key:
+        console.print("[red]❗ No API key entered.[/red]")
+        sys.exit(1)
+    save_api_key(api_key)
+    console.print("[green]✅ API key saved successfully![/green] You can now use: [bold cyan]ai <your instruction>[/bold cyan]")
+
+
 def main():
-    # print("🤖 Welcome to AI-Assist (Powered by Gemini)\n")
+
+    if len(sys.argv) >= 2 and sys.argv[1] == "configure":
+        configure()
+        return
+    
     if len(sys.argv) < 2:
-        console.print("[red]❗ Usage: ai-assist [natural language instruction][/red]")
+        console.print("[red]❗ Usage: ai [natural language instruction][/red]")
+        sys.exit(1)
+    
+    api_key = load_api_key()
+    if not api_key:
+        console.print("[red]❗No API key provided to Gemini API. Please run:[/red] [bold]ai configure[/bold]")
         sys.exit(1)
 
     question = " ".join(sys.argv[1:])
@@ -38,7 +56,7 @@ def main():
             transient=True
         ) as progress:
             progress.add_task("thinking", total=None)
-            command = get_command_from_ai(question)
+            command = get_command_from_ai(question, api_key=api_key)
         
     except Exception as e:
         console.print(f"[red]Gemini Error:[/red] {e}")
