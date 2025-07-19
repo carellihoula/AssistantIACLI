@@ -1,86 +1,84 @@
-# 🤖 AI-Assist CLI (Powered by Gemini)
+# Canoaicli – AI in your terminal
 
-AI-Assist is a simple, interactive CLI tool that transforms natural language instructions into shell commands using Gemini AI. It enhances developer productivity by eliminating the need to search for command-line syntax.
-
----
-
-## ✨ Features
-
-- 🧠 **Natural language to command**: Ask in plain text, get a shell command back.
-- 🎛️ **Interactive interface**: Modify, confirm, or cancel command execution.
-- 🎨 **Rich UI**: Stylish terminal experience with `rich` and `questionary`.
-- 🔐 **Safe by design**: Always asks for confirmation before running any command.
-
-## 🛠️ Installation
-
-1. Clone the repository:
-
-   ```bash
-   git clone https://github.com/carellihoula/AssistantIACLI.git
-   cd AssistantIACLI
-   ```
-
-2. Install dependencies:
-
-   ```bash
-   pixi shell
-   ```
-
-   ```bash
-   pixi install
-   ```
-
-## 🚀 Usage
-
-```bash
-ai  [your instruction here]
-```
-
-### Example
-
-```bash
-ai list all docker containers
-```
-
-📦 Gemini will respond with:
-
-```
-docker ps -a
-```
-
-You’ll be prompted to:
-
-- Execute the command directly
-- Modify it before execution
-- Cancel the operation
-
-## 🧩 Tech Stack
-
-- [Python 3.9+](https://www.python.org/)
-- [Gemini AI API](https://ai.google.dev/)
-- [`rich`](https://github.com/Textualize/rich) – for colorful output and spinners
-- [`questionary`](https://github.com/tmbo/questionary) – for interactive CLI prompts
-
-## 🔐 Disclaimer
-
-This tool executes system commands. Always **read and review** generated commands before running them. Use at your own risk.
+**Canoaicli** is a minimalist and intelligent command-line tool. It lets you generate terminal commands from simple natural language instructions, powered by Google Gemini AI.
 
 ---
 
-## 🧪 Development
+## 🚀 Installation
 
-To run locally for development:
+Make sure you have **Python ≥ 3.11**, then install it easily from PyPI:
 
 ```bash
-python main.py "your natural language query"
+pip install canoaicli
 ```
 
-## 🙌 Contributing
+## 🧠 Configuration
 
-Pull requests and issues are welcome! If you'd like to improve the UX, support more shells, or add AI providers, feel free to fork and contribute.
+Before starting, configure your Gemini API key (get one from [Google AI Studio](https://makersuite.google.com/app/apikey)):
 
-## 📄 License
+```bash
+ai configure
+```
 
-This project is licensed under the [MIT License](LICENSE).
+This will prompt you for your API key, which will be stored securely on your system.
 
-Made with ❤️ by Carel Lihoula Ntsoumou
+---
+
+## 💡 Usage
+
+Once installed and configured, use AI directly in your terminal:
+
+```bash
+ai <your command>
+```
+
+Examples:
+
+```bash
+ai how to list all docker containers
+ai delete all git branches except main
+```
+
+The tool will show you the appropriate shell commands, clearly and ready to be copied or run.
+
+## 🛠️ Features
+
+- Generate bash/git/docker commands from natural language
+- Fast and smooth usage
+- Interactive interface (thanks to `rich` and `questionary`)
+- Secure Gemini API key configuration
+- Open source and extensible
+
+---
+
+## 📦 Local development
+
+To contribute to the project:
+
+```bash
+git clone https://github.com/carellihoula/AssistantIACLI.git
+```
+
+```bash
+cd AssistantIACLI
+```
+
+```bash
+pixi shell
+```
+
+```bash
+pixi install
+```
+
+---
+
+## 📃 License
+
+MIT
+
+---
+
+## ✨ Demo video
+
+_(coming soon)_ 🎥
