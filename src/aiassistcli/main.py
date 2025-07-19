@@ -3,10 +3,25 @@ import sys
 from rich.console import Console
 from rich.progress import Progress, SpinnerColumn, TextColumn
 import questionary
+from questionary import Style
 from aiassistcli.ai_config import get_command_from_ai
 
 
 console = Console()
+
+# 🎨 Custom style for questionary
+custom_style = Style([
+   ('qmark', 'fg:#673ab7 bold'),        
+    ('question', 'bold'),               
+    ('answer', 'fg:#f44336 bold'),      
+    ('pointer', 'fg:#673ab7 bold'),     
+    ('highlighted', 'fg:#673ab7 bold'), 
+    ('selected', 'fg:#cc5454'),         
+    ('separator', 'fg:#cc5454'),        
+    ('instruction', ''),               
+    ('text', ''),                      
+    ('disabled', 'fg:#858585 italic')
+])
 
 def main():
     # print("🤖 Welcome to AI-Assist (Powered by Gemini)\n")
@@ -38,12 +53,16 @@ def main():
             "1. Execute",
             "2. Modify command",
             "3. Cancel",
-        ]).ask()
-
+        ],
+        style=custom_style
+        ).ask(),
+    
+    choice = " ".join(list(choice))
+    
     if choice.startswith("1"):
         is_confirmed = questionary.confirm("Are you sure you want to execute this command?").ask()
         if is_confirmed:
-            console.print("[cyan] Executing...[/cyan]\n")
+            # console.print("[cyan] Executing...[/cyan]\n")
             subprocess.run(command, shell=True)
         # else:
         #     console.print("[red]🚫 Command cancelled.[/red]")
@@ -60,7 +79,8 @@ def main():
             #     console.print("[red]🚫 Command cancelled.[/red]")
 
     else:
-        console.print("[red]🚫 Command cancelled.[/red]")
+        # console.print("[red]🚫 Command cancelled.[/red]")
+        pass
 
 if __name__ == "__main__":
     main()
