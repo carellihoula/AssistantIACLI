@@ -44,8 +44,8 @@ def main():
     console.print("\n[bold green]💡 Gemini suggests:[/bold green]")
     console.print(f"[green] {command}[/green]\n")
 
-    while True:
-        choice = questionary.select(
+    # while True:
+    choice = questionary.select(
             "What do you want to do?",
             choices=[
                 "1. Execute",
@@ -56,18 +56,18 @@ def main():
             style=custom_style
             ).ask(),
         
-        choice = " ".join(list(choice))
+    choice = " ".join(list(choice))
         
-        if choice.startswith("1"):
+    if choice.startswith("1"):
             is_confirmed = questionary.confirm("Are you sure you want to execute this command?").ask()
             if is_confirmed:
                 # console.print("[cyan] Executing...[/cyan]\n")
                 subprocess.run(command, shell=True)
             # else:
             #     console.print("[red]🚫 Command cancelled.[/red]")
-            break
+            # break
 
-        elif choice.startswith("2"):
+    elif choice.startswith("2"):
             new_cmd = questionary.text("📝 Modify the command:", default=command ).ask()
             
             if new_cmd:
@@ -77,9 +77,9 @@ def main():
                     subprocess.run(new_cmd, shell=True)
                 # else : 
                 #     console.print("[red]🚫 Command cancelled.[/red]")
-            break
+            # break
                 
-        elif choice.startswith("3"):
+    elif choice.startswith("3"):
             try:
                 with Progress(
                     SpinnerColumn(),
@@ -94,10 +94,10 @@ def main():
 
             console.print(f"[green] {explanation}[/green]\n")
 
-        else:
+    else:
             # console.print("[red]🚫 Command cancelled.[/red]")
             pass
-            break
+            # break
 
 if __name__ == "__main__":
     main()
