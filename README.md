@@ -1,3 +1,6 @@
+![PyPI - Downloads](https://img.shields.io/pypi/dm/canoaicli)
+![PyPI - Version](https://img.shields.io/pypi/v/canoaicli)
+
 # Canoaicli – AI in your terminal
 
 **Canoaicli** is a minimalist and intelligent command-line tool. It lets you generate terminal commands from simple natural language instructions, powered by Google Gemini AI.
@@ -14,7 +17,7 @@ pip install canoaicli
 
 ## 🧠 Configuration
 
-Before starting, configure your Gemini API key (get one from [Google AI Studio](https://makersuite.google.com/app/apikey)):
+Before starting, configure your **Gemini API key** (get one from [Google AI Studio](https://makersuite.google.com/app/apikey)):
 
 ```bash
 ai configure

@@ -1,6 +1,6 @@
 [project]
 name = "canoaicli"
-version = "1.0.0"
+version = "1.0.1"
 authors = [{name = "carellihoula", email = "carellihoula10@gmail.com"}]
 description = "A command-line AI assistant using Gemini"
 readme = "README.md"
