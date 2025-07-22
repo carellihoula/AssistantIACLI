@@ -25,6 +25,28 @@ ai configure
 
 This will prompt you for your API key, which will be stored securely on your system.
 
+## 📜 History
+
+If you want to use the history feature, you can use the following command:
+
+**This will show you the history of your commands.**
+
+```bash
+ai history
+```
+
+**You can also search for a specific command in the history:**
+
+```bash
+ai history --search <your search>
+```
+
+**You can also clear the history:**
+
+```bash
+ai history clear
+```
+
 ---
 
 ## 💡 Usage
@@ -32,7 +54,7 @@ This will prompt you for your API key, which will be stored securely on your sys
 Once installed and configured, use AI directly in your terminal:
 
 ```bash
-ai <your command>
+ai <your prompt>
 ```
 
 Examples:
