@@ -180,3 +180,4 @@ pyrightconfig.json
 .pixi
 *.egg-info
 test.py
+ROADMAP.md
