@@ -1,103 +1,42 @@
-import subprocess
-import sys
-from aiassistcli.config import configure, explain_command_with_ai, load_api_key, get_command_from_ai, custom_style
-from rich.console import Console
-from rich.progress import Progress, SpinnerColumn, TextColumn
-import questionary
-from questionary import Style
-
-
-console = Console()
+import argparse
+from aiassistcli.config import configure
+from .history import handle_history
+from .run_prompt import run_prompt
 
 
 def main():
+    parser = argparse.ArgumentParser(prog="ai", description="AI assistant CLI tool")
 
-    if len(sys.argv) >= 2 and sys.argv[1] == "configure":
+    subparsers = parser.add_subparsers(dest="command")
+
+    # ai configure
+    subparsers.add_parser("configure", help="Configure your AI API key")
+
+    # ai history
+    history_parser = subparsers.add_parser("history", help="Show command history")
+    history_parser.add_argument("--search", help="Filter by keyword")
+    history_parser.add_argument("--limit", type=int, default=10, help="Number of entries to show")
+    history_parser.add_argument("action", nargs="?", choices=["clear"], help="Clear history")
+
+    # ai <prompt>
+    ask_parser = subparsers.add_parser("ask", help="Ask AI a question")
+    ask_parser.add_argument("prompt", nargs=argparse.REMAINDER, help="Ask a question to the AI")
+
+    args = parser.parse_args()
+
+    if args.command == "configure":
         configure()
-        return
-    
-    if len(sys.argv) < 2:
-        console.print("[red]❗ Usage: ai [natural language instruction][/red]")
-        sys.exit(1)
-    
-    api_key = load_api_key()
-    if not api_key:
-        console.print("[red]❗No API key provided to Gemini API. Please run:[/red] [bold]ai configure[/bold]")
-        sys.exit(1)
 
-    question = " ".join(sys.argv[1:])
-    
-    console.print(f"[bold cyan]🧠 Query:[/bold cyan] {question}")
-    try:
-        with Progress(
-            SpinnerColumn(),
-            TextColumn("[grey] Processing...[/grey]"),
-            transient=True
-        ) as progress:
-            progress.add_task("thinking", total=None)
-            command = get_command_from_ai(question, api_key=api_key)
-        
-    except Exception as e:
-        console.print(f"[red]Gemini Error:[/red] {e}")
-        sys.exit(1)
+    elif args.command == "history":
+        handle_history(args)
 
-    console.print("\n[bold green]💡 Gemini suggests:[/bold green]")
-    console.print(f"[green] {command}[/green]\n")
-
-    # while True:
-    choice = questionary.select(
-            "What do you want to do?",
-            choices=[
-                "1. Execute",
-                "2. Modify command",
-                "3. Show command with explanation",
-                "4. Exit",
-            ],
-            style=custom_style
-            ).ask(),
-        
-    choice = " ".join(list(choice))
-        
-    if choice.startswith("1"):
-            is_confirmed = questionary.confirm("Are you sure you want to execute this command?").ask()
-            if is_confirmed:
-                # console.print("[cyan] Executing...[/cyan]\n")
-                subprocess.run(command, shell=True)
-            # else:
-            #     console.print("[red]🚫 Command cancelled.[/red]")
-            # break
-
-    elif choice.startswith("2"):
-            new_cmd = questionary.text("📝 Modify the command:", default=command ).ask()
-            
-            if new_cmd:
-                is_confirmed = questionary.confirm("Are you sure you want to execute this command?").ask()
-                if is_confirmed:
-                    console.print("[cyan] Executing...[/cyan]\n")
-                    subprocess.run(new_cmd, shell=True)
-                # else : 
-                #     console.print("[red]🚫 Command cancelled.[/red]")
-            # break
-                
-    elif choice.startswith("3"):
-            try:
-                with Progress(
-                    SpinnerColumn(),
-                    TextColumn("[grey] Explaining command...[/grey]"),
-                    transient=True
-                ) as progress:
-                    progress.add_task("explaining", total=None)
-                    explanation = explain_command_with_ai(command, api_key=api_key)
-            except Exception as e:
-                console.print(f"[red]Gemini Error:[/red] {e}")
-                sys.exit(1)
-
-            console.print(f"[green] {explanation}[/green]\n")
+    elif args.prompt:
+        prompt = " ".join(args.prompt)
+        run_prompt(prompt)
 
     else:
-            # console.print("[red]🚫 Command cancelled.[/red]")
-            pass
-            # break
+        parser.print_help()
+
 
 if __name__ == "__main__":
     main()
