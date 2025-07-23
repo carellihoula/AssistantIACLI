@@ -54,14 +54,14 @@ ai history clear
 Once installed and configured, use AI directly in your terminal:
 
 ```bash
-ai <your prompt>
+ai ask <your prompt>
 ```
 
 Examples:
 
 ```bash
-ai how to list all docker containers
-ai delete all git branches except main
+ai ask how to list all docker containers
+ai ask delete all git branches except main
 ```
 
 The tool will show you the appropriate shell commands, clearly and ready to be copied or run.
