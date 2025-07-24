@@ -38,7 +38,7 @@ ai history
 **You can also search for a specific command in the history:**
 
 ```bash
-ai history --search <your search>
+ai history --search <keyword>
 ```
 
 **You can also clear the history:**
@@ -62,6 +62,8 @@ Examples:
 ```bash
 ai ask how to list all docker containers
 ai ask delete all git branches except main
+ai ask create a new virtual environment in python
+
 ```
 
 The tool will show you the appropriate shell commands, clearly and ready to be copied or run.
