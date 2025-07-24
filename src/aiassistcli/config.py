@@ -42,12 +42,15 @@ def load_api_key() -> str | None:
             return None
     return None
 
-def get_command_from_ai(prompt, api_key):
+def get_command_from_ai(prompt: str, api_key: str, refine: bool = False):
 
     # Configure Gemini with the provided API key
     genai.configure(api_key=api_key)
     
     model = genai.GenerativeModel("gemini-2.0-flash")
+    if refine:
+        response = model.generate_content(prompt)
+        return response.text.strip()
     response = model.generate_content(build_prompt(prompt))
     return response.text.strip()
     
@@ -70,3 +73,18 @@ def configure():
         sys.exit(1)
     save_api_key(api_key)
     console.print("[green]✅ API key saved successfully![/green] You can now use: [bold cyan]ai <your instruction>[/bold cyan]")
+
+def refine_prompt(prompt: str) -> str:
+    """Send the prompt to the language model for refinement."""
+    api_key = load_api_key() 
+    refine_instruction = (
+        "Please improve the following prompt without changing its intent or purpose. "
+        "Make it clearer, more concise, and more precise, while preserving its original meaning."
+        "Please rephrase it as a single clear sentence, without any additional explanation."
+        "The refined prompt helps generate commands for shells like Bash, Zsh, CMD, PowerShell, Docker CLI, etc."
+    )
+    full_prompt = f"{refine_instruction}\n\nPrompt original:\n{prompt}"
+    
+    refined = get_command_from_ai(full_prompt, api_key=api_key, refine=True)
+    console.print(f"✨ [bold cyan]Improved prompt[/bold cyan]: [white]{refined}[/white]")
+    return refined
