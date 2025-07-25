@@ -60,13 +60,39 @@ ai ask <your prompt>
 Examples:
 
 ```bash
-ai ask how to list all docker containers
-ai ask delete all git branches except main
-ai ask create a new virtual environment in python
+ai ask "how to list all docker containers"
+ai ask "delete all git branches except main"
+ai ask "create a new virtual environment in python"
 
 ```
 
 The tool will show you the appropriate shell commands, clearly and ready to be copied or run.
+
+## ✨ Refine Your Prompt
+
+Use the `--refine` flag to improve the clarity of your prompt before sending it to the AI.
+
+It rewrites your question in a clearer and more precise way, without changing its meaning. This helps the AI better understand your intent and provide more accurate responses.
+
+**Example:**
+
+```bash
+ai ask --refine "find files that contain error"
+```
+
+## 📖 Help / CLI Options
+
+View all available commands and options:
+
+```bash
+ai --help
+```
+
+or simply:
+
+```bash
+ai -h
+```
 
 ## 🛠️ Features
 

@@ -45,6 +45,18 @@ ai ask "create a new virtual environment in python"
 
 The tool will instantly generate and display the appropriate command(s).
 
+## ✨ Refine Your Prompt
+
+Use the `--refine` flag to improve the clarity of your prompt before sending it to the AI.
+
+It rewrites your question in a clearer and more precise way, without changing its meaning. This helps the AI better understand your intent and provide more accurate responses.
+
+**Example:**
+
+```bash
+ai ask --refine "find files that contain error"
+```
+
 ## 🕘 View Command History
 
 Canoaicli keeps track of your previous prompts and responses.
@@ -76,7 +88,7 @@ ai --help
 or simply:
 
 ```bash
-ai --h
+ai -h
 ```
 
 ## 🛠️ Features
