@@ -1,13 +1,17 @@
 import argparse
-from aiassistcli.config import configure, get_command_from_ai, load_api_key, refine_prompt
+from aiassistcli.config import configure, refine_prompt
 from .history import handle_history
 from .run_prompt import run_prompt
-from rich.console import Console
-from rich.prompt import Prompt
+from aiassistcli import __version__
 
 def main():
     parser = argparse.ArgumentParser(prog="ai", description="AI assistant CLI tool")
-
+    parser.add_argument(
+        "-v", "--version",
+        action="version",
+        version=f"%(prog)s {__version__}",
+        help="Show version"
+    )
     subparsers = parser.add_subparsers(dest="command")
     # ai configure
     subparsers.add_parser("configure", help="Configure your AI API key")

@@ -1,5 +1,6 @@
-![PyPI - Downloads](https://img.shields.io/pypi/dm/canoaicli)
+![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
 ![PyPI - Version](https://img.shields.io/pypi/v/canoaicli)
+[![ClickPy Stats](https://img.shields.io/badge/stats-ClickPy-blue?logo=python)](https://clickpy.clickhouse.com/dashboard/canoaicli)
 
 # Canoaicli – AI in your terminal
 
