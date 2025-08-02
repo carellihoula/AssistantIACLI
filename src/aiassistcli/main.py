@@ -1,4 +1,5 @@
 import argparse
+from aiassistcli.check_update import check_update
 from aiassistcli.config import configure, refine_prompt
 from .history import handle_history
 from .run_prompt import run_prompt
@@ -46,6 +47,9 @@ def main():
         run_prompt(final_prompt)
     else:
         parser.print_help()
+    
+    if args.command is not None:
+        check_update()
 
 
 if __name__ == "__main__":
