@@ -96,3 +96,17 @@ def configure():
             f"[green]✅ Active model: {provider}/{model}[/green]"
             " - You can now use: [bold cyan]ai ask <your prompt>[/bold cyan]"
         )
+
+def list_models():
+    console.print("\n[bold cyan]Available models[/bold cyan]:")
+    for provider, models in SUPPORTED_MODELS.items():
+        for model in models:
+            console.print(f" - {provider}/{model}")
+    config = load_config()
+    default_model = config.get("default_model")
+    if default_model:
+        console.print(
+            f"\n[green]✔ Default: {default_model['provider']}/{default_model['model']}[/green]"
+        )
+    else:
+        console.print("\n[red] No default model configured.[/red]")

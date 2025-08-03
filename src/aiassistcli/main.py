@@ -1,26 +1,11 @@
 import argparse
 from aiassistcli.ai_generate import AIGenerator
-from aiassistcli.config import SUPPORTED_MODELS, configure, load_config
+from aiassistcli.config import configure, list_models
 from .history import handle_history
 from .run_prompt import run_prompt
 from aiassistcli import __version__
-from rich.console import Console
 
-console = Console()
 
-def list_models():
-    console.print("\n[bold cyan]Available models[/bold cyan]:")
-    for provider, models in SUPPORTED_MODELS.items():
-        for model in models:
-            console.print(f" - {provider}/{model}")
-    config = load_config()
-    default_model = config.get("default_model")
-    if default_model:
-        console.print(
-            f"\n[green]✔ Default: {default_model['provider']}/{default_model['model']}[/green]"
-        )
-    else:
-        console.print("\n[red] No default model configured.[/red]")
 
 def main():
     parser = argparse.ArgumentParser(prog="ai", description="AI assistant CLI tool")
