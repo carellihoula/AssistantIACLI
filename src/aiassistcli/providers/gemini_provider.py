@@ -1,7 +1,10 @@
+import sys
 from aiassistcli.ai_prompt import build_prompt
 import google.generativeai as genai
 from .base import AIProvider
 from rich.console import Console
+
+console = Console()
 
 class GeminiProvider(AIProvider):
     def __init__(self, api_key: str):
@@ -9,10 +12,18 @@ class GeminiProvider(AIProvider):
         genai.configure(api_key=api_key)
 
     def generate(self, model: str, prompt: str, refine: bool = False):
-        model = genai.GenerativeModel(model)
-        final_prompt = prompt if refine else build_prompt(prompt)
-        response = model.generate_content(final_prompt)
-        return response.text.strip()
+        try:
+            model = genai.GenerativeModel(model)
+            final_prompt = prompt if refine else build_prompt(prompt)
+            response = model.generate_content(final_prompt)
+            return response.text.strip()
+     
+        except Exception as e:
+            console.print(
+                "[red]Something is wrong with your API key. Check that your key is correct, has the right permissions, "
+                "and that you haven’t exceeded your usage quota.[/red]"
+            )
+            sys.exit(1)
     
     def explain_command(self, model: str, command: str) -> str:
         prompt = f"""
