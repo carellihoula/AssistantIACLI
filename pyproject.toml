@@ -9,7 +9,8 @@ dependencies = [
     "google-generativeai",
     "questionary",
     "rich",
-    "openai"
+    "openai",
+    "pyperclip"
 ]
 
 [project.scripts]

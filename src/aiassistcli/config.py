@@ -2,6 +2,7 @@ from pathlib import Path
 import json
 import questionary
 from rich.console import Console
+import pyperclip
 
 CONFIG_DIR = Path.home() / ".ai-assist"
 CONFIG_PATH = CONFIG_DIR / "config.json"
@@ -110,3 +111,7 @@ def list_models():
         )
     else:
         console.print("\n[red] No default model configured.[/red]")
+    
+def copy_command(command: str):
+    pyperclip.copy(command)
+    # console.print(f"[green]✅ Command copied to clipboard![/green] Paste it in your terminal with [cyan]Ctrl+V[/cyan] or [cyan]Right‑Click → Paste[/cyan].")

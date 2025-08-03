@@ -1,7 +1,7 @@
 import subprocess
 import sys
 from aiassistcli.ai_generate import AIGenerator
-from aiassistcli.config import custom_style, load_config
+from aiassistcli.config import copy_command, custom_style, load_config
 from rich.console import Console
 from rich.progress import Progress, SpinnerColumn, TextColumn
 import questionary
@@ -38,7 +38,8 @@ def run_prompt(prompt: str) -> None:
                 "1. Execute",
                 "2. Modify command",
                 "3. Show command with explanation",
-                "4. Exit",
+                "4. Copy to clipboard",
+                "5. Exit",
             ],
             style=custom_style
             ).ask()
@@ -82,6 +83,9 @@ def run_prompt(prompt: str) -> None:
 
             console.print(f"[green] {explanation}[/green]\n")
             save_history(prompt, command, action="explain")
+
+    elif choice.startswith("4"):
+        copy_command(command)
 
     else:
             # console.print("[red]🚫 Command cancelled.[/red]")
