@@ -5,7 +5,6 @@ from aiassistcli.config import custom_style, load_config
 from rich.console import Console
 from rich.progress import Progress, SpinnerColumn, TextColumn
 import questionary
-from questionary import Style
 from .history import save_history
 
 def run_prompt(prompt: str) -> None:

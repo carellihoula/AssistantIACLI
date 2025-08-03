@@ -4,9 +4,7 @@
 
 # Canoaicli – AI in your terminal
 
-**Canoaicli** is a minimalist and intelligent command-line tool. It lets you generate terminal commands from simple natural language instructions, powered by Google Gemini AI.
-
----
+**Canoaicli** is a minimalist and intelligent command-line tool. It lets you generate terminal commands from simple natural language instructions, powered by multiple AI providers such as **Google Gemini, OpenAI, Anthropic, and DeepSeek**.
 
 ## 🚀 Installation
 
@@ -18,37 +16,63 @@ pip install canoaicli
 
 ## 🧠 Configuration
 
-Before starting, configure your **Gemini API key** (get one from [Google AI Studio](https://makersuite.google.com/app/apikey)):
+Before using the CLI, you need to configure your **API key** and select a model.
+
+Run:
 
 ```bash
 ai configure
 ```
 
-This will prompt you for your API key, which will be stored securely on your system.
+You will be prompted to choose between two modes:
 
-## 📜 History
+### 1. Use default (`gemini-2.0-flash`, Free)
 
-If you want to use the history feature, you can use the following command:
+The default configuration uses **Gemini Flash** (`gemini-2.0-flash`).
+This model is **free to use** with your Gemini API key (within Google’s free tier limits).
 
-**This will show you the history of your commands.**
-
-```bash
-ai history
-```
-
-**You can also search for a specific command in the history:**
+➡️ Get your Gemini API key from [Google AI Studio](https://makersuite.google.com/app/apikey).
 
 ```bash
-ai history --search <keyword>
+? Select configuration mode:
+❯ 1. Use default (gemini-2.0-flash, Free)
+  2. Choose another provider/model
+
+🔐 Enter your Gemini API key: ********************
+✅ Active model: gemini/gemini-2.0-flash
 ```
 
-**You can also clear the history:**
+### 2. Choose another provider/model (May require paid API key)
+
+You can also select another provider (OpenAI, Anthropic, DeepSeek, Gemini Pro).
+
+⚠️ In this case, you must provide **your own API key** for that provider.
+Depending on the service and the model chosen, usage may require a **paid subscription**.
 
 ```bash
-ai history clear
+? Select configuration mode:
+  1. Use default (gemini-2.0-flash, Free)
+❯ 2. Choose another provider/model
+
+? Select provider:
+❯ openai
+  anthropic
+  deepseek
+  gemini
+
+? Select model:
+❯ gpt-4o
+  gpt-4o-mini
+
+🔐 Enter your API key for openai: ********************
+✅ Active model: openai/gpt-4o
 ```
 
----
+Your configuration will be stored in:
+
+```bash
+~/.ai-assist/config.json
+```
 
 ## 💡 Usage
 
@@ -81,6 +105,54 @@ It rewrites your question in a clearer and more precise way, without changing it
 ai ask --refine "find files that contain error"
 ```
 
+## 📜 History
+
+If you want to use the history feature, you can use the following command:
+
+**This will show you the history of your commands.**
+
+```bash
+ai history
+```
+
+**You can also search for a specific command in the history:**
+
+```bash
+ai history --search <keyword>
+```
+
+**You can also clear the history:**
+
+```bash
+ai history clear
+```
+
+## 🔎 List Available Models
+
+You can list all models available for your configured providers:
+
+```bash
+ai models-list
+```
+
+Example output:
+
+```
+Available models:
+
+ - openai/gpt-4o
+ - openai/gpt-4o-mini
+ - anthropic/claude-sonnet-4-20250514
+ - anthropic/claude-opus-4-20250514
+ - anthropic/claude-3-7-sonnet-20250219
+ - deepseek/deepseek-chat
+ - deepseek/deepseek-reasoner
+ - gemini/gemini-2.0-flash
+ - gemini/gemini-2.0-pro
+
+✔ Default: gemini/gemini-2.0-flash
+```
+
 ## 📖 Help / CLI Options
 
 View all available commands and options:
@@ -97,13 +169,36 @@ ai -h
 
 ## 🛠️ Features
 
-- Generate bash/git/docker commands from natural language
-- Fast and smooth usage
-- Interactive interface (thanks to `rich` and `questionary`)
-- Secure Gemini API key configuration
-- Open source and extensible
+- 🔑 **Multi‑provider support**
+  Use Google Gemini, OpenAI, Anthropic, or DeepSeek with your own API key.
 
----
+- ⚡ **Default free model (`gemini-2.0-flash`)**
+  Start immediately with Gemini Flash, free via [Google AI Studio](https://makersuite.google.com/app/apikey).
+
+- 📑 **List available models**
+  Use `ai models-list` to see which models are available for each provider, and which one is currently active.
+
+- 🧩 **Configurable & secure**
+  Store and switch providers/models easily with `ai configure`.
+  Your API keys are stored locally and securely.
+
+- 💡 **Natural language to CLI commands**
+  Generate `bash`, `git`, `docker`, or `system` commands from simple instructions.
+
+- ✨ **Prompt refinement**
+  Use `--refine` to automatically improve your input prompt for better accuracy.
+
+- 📜 **Command history**
+  View, search, and clear your history with `ai history`.
+
+- 🎨 **Interactive interface**
+  Built with [`rich`](https://github.com/Textualize/rich) and [`questionary`](https://github.com/tmbo/questionary) for a smooth user experience.
+
+- 🔐 **Secure API key configuration**
+  Keys are stored in `~/.ai-assist/config.json` with safe file permissions.
+
+- 🚀 **Fast & extensible**
+  Open source, modular design — easy to extend with new providers or features.
 
 ## 📦 Local development
 
@@ -125,13 +220,9 @@ pixi shell
 pixi install
 ```
 
----
-
 ## 📃 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
----
 
 ## ✨ Demo video
 
