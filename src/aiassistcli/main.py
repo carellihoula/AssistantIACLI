@@ -1,8 +1,26 @@
 import argparse
-from aiassistcli.config import configure, refine_prompt
+from aiassistcli.ai_generate import AIGenerator
+from aiassistcli.config import SUPPORTED_MODELS, configure, load_config
 from .history import handle_history
 from .run_prompt import run_prompt
 from aiassistcli import __version__
+from rich.console import Console
+
+console = Console()
+
+def list_models():
+    console.print("\n[bold cyan]Available models[/bold cyan]:")
+    for provider, models in SUPPORTED_MODELS.items():
+        for model in models:
+            console.print(f" - {provider}/{model}")
+    config = load_config()
+    default_model = config.get("default_model")
+    if default_model:
+        console.print(
+            f"\n[green]✔ Default: {default_model['provider']}/{default_model['model']}[/green]"
+        )
+    else:
+        console.print("\n[red] No default model configured.[/red]")
 
 def main():
     parser = argparse.ArgumentParser(prog="ai", description="AI assistant CLI tool")
@@ -13,8 +31,12 @@ def main():
         help="Show version"
     )
     subparsers = parser.add_subparsers(dest="command")
+
     # ai configure
     subparsers.add_parser("configure", help="Configure your AI API key")
+
+    # ai models list
+    subparsers.add_parser("models-list", help="List available models")
 
     # ai history
     history_parser = subparsers.add_parser("history", help="Show command history")
@@ -32,18 +54,23 @@ def main():
     if args.command == "configure":
         configure()
 
+    elif args.command == "models-list":
+        list_models()
+
     elif args.command == "history":
         handle_history(args)
 
     elif args.command == "ask":
+        gen = AIGenerator()
         prompt = " ".join(args.prompt)
         final_prompt = prompt
 
         if args.refine:
-            refined = refine_prompt(prompt)
+            refined = gen.refine_prompt(prompt)
             final_prompt = refined
 
         run_prompt(final_prompt)
+            
     else:
         parser.print_help()
 
