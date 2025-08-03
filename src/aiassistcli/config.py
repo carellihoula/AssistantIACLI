@@ -69,7 +69,7 @@ def configure():
         save_config(config)
 
         console.print(
-            f"[green]✅ Active model: {DEFAULT_PROVIDER}/{DEFAULT_MODEL}[/green]"
+            f"[white bold]Active model: [/white bold] [green]{DEFAULT_PROVIDER}/{DEFAULT_MODEL}[/green]"
              " - You can now use: [bold cyan]ai ask <your prompt>[/bold cyan]"
         )
 
@@ -93,7 +93,7 @@ def configure():
         save_config(config)
 
         console.print(
-            f"[green]✅ Active model: {provider}/{model}[/green]"
+            f"[white bold]Active model: [/white bold][green]{provider}/{model}[/green]"
             " - You can now use: [bold cyan]ai ask <your prompt>[/bold cyan]"
         )
 

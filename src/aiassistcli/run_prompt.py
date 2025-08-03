@@ -60,7 +60,7 @@ def run_prompt(prompt: str) -> None:
             if new_cmd:
                 is_confirmed = questionary.confirm("Are you sure you want to execute this command?").ask()
                 if is_confirmed:
-                    console.print("[cyan] Executing...[/cyan]\n")
+                    # console.print("[cyan] Executing...[/cyan]\n")
                     subprocess.run(new_cmd, shell=True)
                     save_history(prompt, new_cmd, action="run")
                 # else : 
