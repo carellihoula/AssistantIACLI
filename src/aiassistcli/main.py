@@ -1,6 +1,6 @@
 import argparse
 from aiassistcli.ai_generate import AIGenerator
-from aiassistcli.config import configure, list_models
+from aiassistcli.config import configure, list_models, switch_model
 from .history import handle_history
 from .run_prompt import run_prompt
 from aiassistcli import __version__
@@ -20,13 +20,16 @@ def main():
     # ai configure
     subparsers.add_parser("configure", help="Configure your AI API key")
 
-    # ai models list
-    subparsers.add_parser("models-list", help="List available models")
+    # ai models (group)
+    models_parser = subparsers.add_parser("models", help="Manage AI models")
+    models_subparsers = models_parser.add_subparsers(dest="models_command")
+    models_subparsers.add_parser("list", help="List available models")
+    models_subparsers.add_parser("switch", help="Set default model interactively")
+
 
     # ai history
     history_parser = subparsers.add_parser("history", help="Show command history")
     history_parser.add_argument("--search", help="Filter by keyword")
-    history_parser.add_argument("--limit", type=int, default=10, help="Number of entries to show")
     history_parser.add_argument("action", nargs="?", choices=["clear"], help="Clear history")
 
     # ai <prompt>
@@ -39,8 +42,13 @@ def main():
     if args.command == "configure":
         configure()
 
-    elif args.command == "models-list":
-        list_models()
+    elif args.command == "models":
+        if args.models_command == "list":
+            list_models()
+        elif args.models_command == "switch":
+            switch_model()
+        else:
+            models_parser.print_help()
 
     elif args.command == "history":
         handle_history(args)

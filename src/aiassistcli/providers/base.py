@@ -18,9 +18,3 @@ class AIProvider(ABC):
     def refine_prompt(self, model: str, prompt: str) -> str:
         pass
 
-class AIError(Exception):
-    """Custom exception for AI provider errors."""
-    def __init__(self, message: str):
-        super().__init__(message)
-        self.message = message
-

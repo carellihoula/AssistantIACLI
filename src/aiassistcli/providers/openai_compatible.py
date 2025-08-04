@@ -2,7 +2,7 @@ import sys
 from aiassistcli.ai_prompt import build_prompt
 from openai import OpenAI, AuthenticationError, RateLimitError
 from rich.console import Console
-from .base import AIError, AIProvider
+from .base import AIProvider
 
 console = Console()
 
@@ -28,7 +28,7 @@ class OpenAICompatibleProvider(AIProvider):
             console.print("[red]Invalid API key. Please reconfigure with ai configure.[red]")
             sys.exit(1)
         # except RateLimitError:
-        #     print(f"❌ You exceeded your {model} quota. Check your plan/billing.")
+        #     print(f"You exceeded your {model} quota. Check your plan/billing.")
         #     sys.exit(1)
         except Exception as e:
             console.print(
