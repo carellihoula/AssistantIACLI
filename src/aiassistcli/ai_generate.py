@@ -36,7 +36,7 @@ class AIGenerator:
         self.providers[provider_name] = provider
         return provider
 
-    def generate(self, prompt: str) -> str | None:
+    def generate(self, prompt: str, refine: bool = False) -> str | None:
         default_model = self.config.get("default_model")
         if not default_model:
             console.print("[red]❗ No default model configured. Run 'ai configure' first[/red]")
@@ -49,7 +49,7 @@ class AIGenerator:
             return None
 
         # console.print(f"[cyan]Using {provider_name}/{model_id}[/cyan]")
-        response = provider.generate(model_id, prompt)
+        response = provider.generate(model_id, prompt, refine)
         return response
 
     def explain_command(self, command: str) -> str | None:
