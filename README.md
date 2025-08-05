@@ -132,7 +132,7 @@ ai history clear
 You can list all models available for your configured providers:
 
 ```bash
-ai models-list
+ai models list
 ```
 
 Example output:
@@ -151,6 +151,29 @@ Available models:
  - gemini/gemini-2.0-pro
 
 ✔ Default: gemini/gemini-2.0-flash
+```
+
+## 🧠 Select AI Model
+
+You can switch between different AI models depending on your needs.
+
+Each provider offers models optimized for speed, reasoning, or cost.
+
+```bash
+ai models switch
+```
+
+```bash
+? Select model:
+❯ openai/gpt-4o
+  openai/gpt-4o-mini
+  anthropic/claude-sonnet-4-20250514
+  anthropic/claude-opus-4-20250514
+  anthropic/claude-3-7-sonnet-20250219
+  deepseek/deepseek-chat
+  deepseek/deepseek-reasoner
+  gemini/gemini-2.0-flash
+  gemini/gemini-2.0-pro
 ```
 
 ## 📖 Help / CLI Options
