@@ -1,16 +1,23 @@
 from pathlib import Path
 import json
-import sys
-import google.generativeai as genai
-# from dotenv import load_dotenv
-from aiassistcli.ai_prompt import build_prompt
 import questionary
 from rich.console import Console
+import pyperclip
 
 CONFIG_DIR = Path.home() / ".ai-assist"
 CONFIG_PATH = CONFIG_DIR / "config.json"
 
-# 🎨 Custom style for questionary
+SUPPORTED_MODELS = {
+    "openai": ["gpt-4o", "gpt-4o-mini"],
+    "anthropic": ["claude-sonnet-4", "claude-sonnet-4",],
+    "deepseek": ["deepseek-chat", "deepseek-reasoner", "deepseek-chat-v3-0324:free"],
+    "gemini": ["gemini-2.0-flash", "gemini-2.0-pro"],
+}
+
+DEFAULT_PROVIDER = "gemini"
+DEFAULT_MODEL = "gemini-2.0-flash"
+
+# Custom style for questionary
 custom_style = questionary.Style([
    ('qmark', 'fg:#673ab7 bold'),        
     ('question', 'bold'),               
@@ -26,65 +33,124 @@ custom_style = questionary.Style([
 
 console = Console()
 
-def save_api_key(key: str):
+def save_config(config: dict):
     CONFIG_DIR.mkdir(parents=True, exist_ok=True)
-    CONFIG_PATH.write_text(json.dumps({"api_key": key}))
-    
-    # secure file permissions (Linux/macOS)
-    # CONFIG_PATH.chmod(stat.S_IRUSR | stat.S_IWUSR)  # rw-------
+    CONFIG_PATH.write_text(json.dumps(config, indent=2))
 
-def load_api_key() -> str | None:
+def load_config() -> dict:
     if CONFIG_PATH.exists():
-        try:
-            data = json.loads(CONFIG_PATH.read_text())
-            return data.get("api_key")
-        except Exception:
-            return None
-    return None
-
-def get_command_from_ai(prompt: str, api_key: str, refine: bool = False):
-
-    # Configure Gemini with the provided API key
-    genai.configure(api_key=api_key)
-    
-    model = genai.GenerativeModel("gemini-2.0-flash")
-    if refine:
-        response = model.generate_content(prompt)
-        return response.text.strip()
-    response = model.generate_content(build_prompt(prompt))
-    return response.text.strip()
-    
-def explain_command_with_ai(command: str, api_key: str) -> str:
-    prompt = f"""
-    Generate the same CLI command as: {command}
-    Add brief inline comments to each line explaining what it does.
-    Only output the command with the comments, no extra explanation.
-    """
-    return get_command_from_ai(prompt, api_key)
+        return json.loads(CONFIG_PATH.read_text())
+    return {}
 
 def configure():
-    try:
-        api_key = questionary.password("🔐 Enter your Gemini API key:", style=custom_style).ask()
-    except KeyboardInterrupt:
-        sys.exit(1)
-        
-    if not api_key:
-        console.print("[red]❗ No API key entered.[/red]")
-        sys.exit(1)
-    save_api_key(api_key)
-    console.print("[green]✅ API key saved successfully![/green] You can now use: [bold cyan]ai <your instruction>[/bold cyan]")
+    choice = questionary.select(
+        "Select configuration mode:",
+        choices=[
+            "1. Use default (Gemini Flash)",
+            "2. Choose another provider/model",
+        ],
+        style=custom_style
+    ).ask()
 
-def refine_prompt(prompt: str) -> str:
-    """Send the prompt to the language model for refinement."""
-    api_key = load_api_key() 
-    refine_instruction = (
-        "Please improve the following prompt without changing its intent or purpose. "
-        "Make it clearer, more concise, and more precise, while preserving its original meaning."
-        "Please rephrase it as a single clear sentence, without any additional explanation."
-        "The refined prompt helps generate commands for shells like Bash, Zsh, CMD, PowerShell, Docker CLI, etc."
-    )
-    full_prompt = f"{refine_instruction}\n\nPrompt original:\n{prompt}"
+    config = load_config()
+
+    if choice.startswith("1"):
+        # Cas 1 : default Gemini Flash
+        api_key = questionary.password("🔐 Enter your Gemini API key:", style=custom_style).ask()
+
+        if not api_key:
+            console.print("[red bold] No API key entered. Aborting.[/red bold]")
+            return
+
+        config["default_model"] = {
+            "provider": DEFAULT_PROVIDER,
+            "model": DEFAULT_MODEL,
+        }
+        config.setdefault("providers", {})[DEFAULT_PROVIDER] = {"api_key": api_key}
+        save_config(config)
+
+        console.print(
+            f"[white bold]Active model: [/white bold] [green]{DEFAULT_PROVIDER}/{DEFAULT_MODEL}[/green]"
+             " - You can now use: [bold cyan]ai ask <your prompt>[/bold cyan]"
+        )
+
+
+    else:
+        provider = questionary.select(
+            "Select provider:", choices=list(SUPPORTED_MODELS.keys()), style=custom_style
+        ).ask()
+
+        model = questionary.select(
+            "Select model:", choices=SUPPORTED_MODELS[provider], style=custom_style
+        ).ask()
+
+        api_key = questionary.password(f"🔐 Enter your API key for {provider}:", style=custom_style).ask()
+        if not api_key:
+            console.print("[red bold]No API key entered.[/red bold]")
+            return
+
+        config["default_model"] = {"provider": provider, "model": model}
+        config.setdefault("providers", {})[provider] = {"api_key": api_key}
+        save_config(config)
+
+        console.print(
+            f"[white bold]Active model: [/white bold][green]{provider}/{model}[/green]"
+            " - You can now use: [bold cyan]ai ask <your prompt>[/bold cyan]"
+        )
+
+def list_models():
+    console.print("\n[bold cyan]Available models[/bold cyan]:")
+    for provider, models in SUPPORTED_MODELS.items():
+        for model in models:
+            console.print(f" - {provider}/{model}")
+    config = load_config()
+    default_model = config.get("default_model")
+    if default_model:
+        console.print(
+            f"\n[green]✔ Default: {default_model['provider']}/{default_model['model']}[/green]"
+        )
+    else:
+        console.print("\n[red bold] No default model configured.[/red bold]")
     
-    refined = get_command_from_ai(full_prompt, api_key=api_key, refine=True)
-    console.print(f"✨ [bold cyan]Improved prompt[/bold cyan]: [white]{refined}[/white]")
-    return refined
+def switch_model():
+    """Sets the default model in the configuration."""
+    try:
+        models_available = []
+        for provider, models in SUPPORTED_MODELS.items():
+            for model in models:
+                # console.print(f" - {provider}/{model}")
+                models_available.append(f"{provider}/{model}")
+        # return models_available
+        choice = questionary.select(
+                "Select a model",
+                choices=models_available,
+                style=custom_style
+                ).ask()
+        # choice = f"{choice.split('/')[0]}/{choice.split('/')[2]}" if len(choice.split('/')) == 3 and choice.split('/')[0] == choice.split('/')[1] else choice
+        
+        provider, model = choice.split('/')
+    except ValueError:
+        console.print(f"[red]Invalid model format. Use 'provider/model' (e.g., 'openai/gpt-4o').[/red]")
+        return
+
+    if provider not in SUPPORTED_MODELS or model not in SUPPORTED_MODELS[provider]:
+        console.print(f"[red bold]Model '{model}' is not supported.[/red bold]")
+        console.print("Use 'ai models list' to see available models.")
+        return
+
+    config = load_config()
+
+    if not config.get("providers", {}).get(provider, {}).get("api_key"):
+        console.print(f"[yellow bold]API key for '{provider}' is not configured.[/yellow bold]")
+        api_key = questionary.password(f"🔐 Enter your API key for {provider}:", style=custom_style).ask()
+        if not api_key:
+            console.print("[red bold]No API key entered. Aborting.[/red bold]")
+            return
+        config.setdefault("providers", {})[provider] = {"api_key": api_key}
+
+    config["default_model"] = {"provider": provider, "model": model}
+    save_config(config)
+    console.print(f"[green]✔ Default model set to: {provider}/{model}[/green]")
+
+def copy_command(command: str):
+    pyperclip.copy(command)

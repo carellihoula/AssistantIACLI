@@ -7,9 +7,10 @@ readme = "PYPL.md"
 requires-python = ">= 3.9"
 dependencies = [
     "google-generativeai",
-    "python-dotenv",
     "questionary",
-    "rich"
+    "rich",
+    "openai",
+    "pyperclip"
 ]
 
 [project.scripts]
