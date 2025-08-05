@@ -1,5 +1,6 @@
 import argparse
 from aiassistcli.ai_generate import AIGenerator
+from aiassistcli.check_update import check_update
 from aiassistcli.config import configure, list_models, switch_model
 from .history import handle_history
 from .run_prompt import run_prompt
@@ -66,6 +67,9 @@ def main():
             
     else:
         parser.print_help()
+
+    if args.command is not None:
+        check_update()
 
 
 if __name__ == "__main__":
