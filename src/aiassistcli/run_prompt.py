@@ -33,7 +33,7 @@ def run_prompt(prompt: str) -> None:
         sys.exit(1)
 
     console.print(f"\n[bold green]💡 {provider} suggests:[/bold green]")
-    console.print(f"[green] {command}[/green]\n")
+    console.print(f"[green bold] {command}[/green bold]\n")
 
     while True:
         choice = questionary.select(
@@ -88,7 +88,7 @@ def run_prompt(prompt: str) -> None:
                     console.print(f"[red]Gemini Error:[/red] {e}")
                     sys.exit(1)
 
-                console.print(f"[green] {explanation}[/green]\n")
+                console.print(f"[green bold] {explanation}[/green bold]\n")
                 save_history(prompt, command, action="explain")
                 conversation.clear()
                 break
@@ -113,14 +113,14 @@ def run_prompt(prompt: str) -> None:
 
                 with Progress(
                     SpinnerColumn(),
-                    TextColumn("[grey] Revising...[/grey]"),
+                    TextColumn("[grey bold] Revising...[/grey bold]"),
                     transient=True
                 ) as progress:
                     progress.add_task("revise", total=None)
                     revised_cmd = gen.generate(revise_prompt, refine=True)
 
                 console.print("\n[bold green]💡 Revised command:[/bold green]")
-                console.print(f"[green] {revised_cmd}[/green]\n")
+                console.print(f"[bold green] {revised_cmd}[/ bold green]\n")
 
                 # Add the new question/answer to the conversational context
                 conversation.append({"question": extra, "answer": revised_cmd})

@@ -22,7 +22,7 @@ class AIGenerator:
 
         api_key = self.config.get("providers", {}).get(provider_name, {}).get("api_key")
         if not api_key:
-            console.print(f"[red]❗ No API key configured for {provider_name}[/red]")
+            console.print(f"[red bold]No API key configured for {provider_name}[/red bold]")
             return None
 
         if provider_name in PROVIDER_URLS:
@@ -30,7 +30,7 @@ class AIGenerator:
         elif provider_name == "gemini":
             provider = GeminiProvider(api_key)
         else:
-            console.print(f"[red]❗ Unknown provider: {provider_name}[/red]")
+            console.print(f"[red bold]Unknown provider: {provider_name}[/red bold]")
             return None
 
         self.providers[provider_name] = provider
@@ -39,7 +39,7 @@ class AIGenerator:
     def generate(self, prompt: str, refine: bool = False) -> str | None:
         default_model = self.config.get("default_model")
         if not default_model:
-            console.print("[red]❗ No default model configured. Run 'ai configure' first[/red]")
+            console.print("[red bold]No default model configured. Run 'ai configure' first[/red bold]")
             return None
 
         provider_name = default_model["provider"]
@@ -55,7 +55,7 @@ class AIGenerator:
     def explain_command(self, command: str) -> str | None:
         default_model = self.config.get("default_model")
         if not default_model:
-            console.print("[red]❗ No default model configured. Run 'ai configure' first[/red]")
+            console.print("[red bold]No default model configured. Run 'ai configure' first[/red bold]")
             return None
 
         provider_name = default_model["provider"]
@@ -71,7 +71,7 @@ class AIGenerator:
     def refine_prompt(self, prompt: str) -> str | None:
         default_model = self.config.get("default_model")
         if not default_model:
-            console.print("[red]❗ No default model configured. Run 'ai configure' first[/red]")
+            console.print("[red bold]No default model configured. Run 'ai configure' first[/red bold]")
             return None
 
         provider_name = default_model["provider"]

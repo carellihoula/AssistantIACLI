@@ -29,19 +29,19 @@ def save_history(query: str, command: str, action: Literal["run", "explain", "ca
 
 def show_history(search: Optional[str] = None) -> None:
     if not HISTORY_PATH.exists():
-        console.print("[yellow]No history found.[/yellow]")
+        console.print("[yellow bold]No history found.[/yellow bold]")
         return
 
     try:
         history = json.loads(HISTORY_PATH.read_text())
     except Exception as e:
-        console.print(f"[red]Failed to read history: {e}[/red]")
+        console.print(f"[red bold]Failed to read history: {e}[/red bold]")
         return
 
     if search:
         history = [h for h in history if search.lower() in h["query"].lower() or search.lower() in h["command"].lower()]
         if not history:
-            console.print(f"[red]No results found for:[/red] '{search}'")
+            console.print(f"[red bold]No results found for:[/red bold] '{search}'")
             return
 
     entries = history
@@ -61,9 +61,9 @@ def show_history(search: Optional[str] = None) -> None:
 def clear_history() -> None:
     if HISTORY_PATH.exists():
         HISTORY_PATH.unlink()
-        console.print("[green]History cleared.[/green]")
+        console.print("[green bold]History cleared.[/green bold]")
     else:
-        console.print("[yellow]No history to clear.[/yellow]")
+        console.print("[yellow bold]No history to clear.[/yellow bold]")
     return
 
 def handle_history(args):

@@ -70,7 +70,7 @@ def configure():
         save_config(config)
 
         console.print(
-            f"[white bold]Active model: [/white bold] [green]{DEFAULT_PROVIDER}/{DEFAULT_MODEL}[/green]"
+            f"[white bold]Active model: [/white bold] [green bold]{DEFAULT_PROVIDER}/{DEFAULT_MODEL}[/green bold]"
              " - You can now use: [bold cyan]ai ask <your prompt>[/bold cyan]"
         )
 
@@ -107,7 +107,7 @@ def list_models():
     default_model = config.get("default_model")
     if default_model:
         console.print(
-            f"\n[green]✔ Default: {default_model['provider']}/{default_model['model']}[/green]"
+            f"\n[green bold]✔ Default: {default_model['provider']}/{default_model['model']}[/green bold]"
         )
     else:
         console.print("\n[red bold] No default model configured.[/red bold]")
@@ -150,7 +150,7 @@ def switch_model():
 
     config["default_model"] = {"provider": provider, "model": model}
     save_config(config)
-    console.print(f"[green]✔ Default model set to: {provider}/{model}[/green]")
+    console.print(f"[green bold]✔ Default model set to: {provider}/{model}[/green bold]")
 
 def copy_command(command: str):
     pyperclip.copy(command)
