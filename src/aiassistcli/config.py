@@ -9,7 +9,7 @@ CONFIG_PATH = CONFIG_DIR / "config.json"
 
 SUPPORTED_MODELS = {
     "openai": ["gpt-4o", "gpt-4o-mini"],
-    "anthropic": ["claude-sonnet-4", "claude-sonnet-4", "claude-opus-4-20250514", "claude-3-7-sonnet-20250219"],
+    "anthropic": ["claude-sonnet-4", "claude-sonnet-4",],
     "deepseek": ["deepseek-chat", "deepseek-reasoner", "deepseek-chat-v3-0324:free"],
     "gemini": ["gemini-2.0-flash", "gemini-2.0-pro"],
 }
