@@ -117,7 +117,7 @@ def run_prompt(prompt: str) -> None:
                     transient=True
                 ) as progress:
                     progress.add_task("revise", total=None)
-                    revised_cmd = gen.generate(revise_prompt, refine=True)
+                    revised_cmd = gen.generate(revise_prompt)
 
                 console.print("\n[bold green]💡 Revised command:[/bold green]")
                 console.print(f"[bold green] {revised_cmd}[/ bold green]\n")
