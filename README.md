@@ -8,7 +8,7 @@
 
 ## 🚀 Installation
 
-Make sure you have **Python ≥ 3.11**, then install it easily from PyPI:
+Make sure you have **Python ≥ 3.9**, then install it easily from PyPI:
 
 ```bash
 pip install canoaicli
