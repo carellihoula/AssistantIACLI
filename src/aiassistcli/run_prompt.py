@@ -29,7 +29,7 @@ def run_prompt(prompt: str) -> None:
         conversation.append({"question": prompt, "answer": command})
         
     except Exception as e:
-        console.print(f"[red]Gemini Error:[/red] {e}")
+        console.print(f"[red] Error:[/red] {e}")
         sys.exit(1)
 
     console.print(f"\n[bold green]💡 {provider} suggests:[/bold green]")
