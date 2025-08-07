@@ -11,7 +11,7 @@ SUPPORTED_MODELS = {
     "openai": ["gpt-4.1-mini", "gpt-4o-mini", "gpt-4o"], # , "gpt-4o-mini"
     # "anthropic": ["claude-sonnet-4", "claude-sonnet-4",],
     "deepseek": ["deepseek-chat"],
-    "gemini": ["gemini-2.0-flash", "gemini-2.0-pro"],
+    "gemini": ["gemini-2.0-flash", "gemini-2.5-flash"],
 }
 
 DEFAULT_PROVIDER = "gemini"
