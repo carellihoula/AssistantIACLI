@@ -3,7 +3,7 @@ name = "canoaicli"
 version = "2.0.0"
 authors = [{name = "carellihoula", email = "carellihoula10@gmail.com"}]
 description = "A command-line AI assistant using Gemini"
-readme = "PYPL.md"
+readme = "README.md"
 requires-python = ">= 3.9"
 dependencies = [
     "google-generativeai",
