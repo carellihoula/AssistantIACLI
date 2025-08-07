@@ -6,6 +6,18 @@
 
 **Canoaicli** is a minimalist and intelligent command-line tool. It lets you generate terminal commands from simple natural language instructions, powered by multiple AI providers such as **Google Gemini, OpenAI, Anthropic, and DeepSeek**.
 
+## ⚡️ Quick Start
+
+### ✅ Prerequisites
+
+- **Python ≥ 3.9**
+- **At least one API key** from your preferred provider:
+
+  - [OpenAI API key](https://platform.openai.com/account/api-keys)
+  - [Google Gemini API key](https://makersuite.google.com/app/apikey) _(Gemini-2.0-flash is free and set as the default model)_
+  - [Anthropic API key](https://console.anthropic.com/account/keys)
+  - [DeepSeek API key](https://platform.deepseek.com/)
+
 ## 🚀 Installation
 
 Make sure you have **Python ≥ 3.9**, then install it easily from PyPI:
