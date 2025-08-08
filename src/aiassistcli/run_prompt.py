@@ -35,7 +35,7 @@ def run_prompt(prompt: str) -> None:
         console.print(f"[red] Error:[/red] {e}")
         sys.exit(1)
 
-    console.print(f"\n[bold green]💡 {provider} suggests:[/bold green]")
+    console.print(f"\n[bold green]✨ {provider} suggests:[/bold green]")
     console.print(f"[green bold] {command}[/green bold]\n")
 
     while True:
@@ -122,7 +122,7 @@ def run_prompt(prompt: str) -> None:
                     progress.add_task("revise", total=None)
                     revised_cmd = gen.generate(revise_prompt)
 
-                console.print("\n[bold green]💡 Revised command:[/bold green]")
+                console.print("\n[bold green]✨ Revised command:[/bold green]")
                 console.print(f"[bold green] {revised_cmd}[/ bold green]\n")
 
                 # Add the new question/answer to the conversational context
