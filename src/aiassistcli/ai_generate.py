@@ -1,3 +1,4 @@
+import sys
 from rich.console import Console
 from aiassistcli.providers.openai_compatible import OpenAICompatibleProvider
 from aiassistcli.providers.gemini_provider import GeminiProvider
@@ -71,8 +72,8 @@ class AIGenerator:
     def refine_prompt(self, prompt: str) -> str | None:
         default_model = self.config.get("default_model")
         if not default_model:
-            console.print("[red bold]No default model configured. Run 'ai configure' first[/red bold]")
-            return None
+            console.print("[red bold]No default model configured. Run 'ai configure' first [/red bold]")
+            sys.exit(1)
 
         provider_name = default_model["provider"]
         model_id = default_model["model"]

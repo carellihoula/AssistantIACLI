@@ -12,6 +12,9 @@ def run_prompt(prompt: str) -> None:
     console = Console()
     gen = AIGenerator()
     default_model = load_config().get("default_model")
+    if default_model is None:
+        console.print("[bold red] No default model configured. Run 'ai configure' first.[bold red]")
+        sys.exit(1)
     provider = default_model["provider"]
     conversation = []
     

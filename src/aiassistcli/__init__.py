@@ -1,4 +1,8 @@
-"""AI Assistant CLI - A command line tool powered by Gemini AI"""
+from importlib.metadata import version, PackageNotFoundError
 
-__version__ = "1.2.0"
-__author__ = "carellihoula"
+try:
+    __version__ = version("canoaicli")
+    __author__ = "carellihoula"
+except PackageNotFoundError:
+    pass
+    # print("Package not found")

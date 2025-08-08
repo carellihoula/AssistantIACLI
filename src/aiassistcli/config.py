@@ -110,7 +110,7 @@ def list_models():
             f"\n[green bold]✔ Default: {default_model['provider']}/{default_model['model']}[/green bold]"
         )
     else:
-        console.print("\n[red bold] No default model configured.[/red bold]")
+        console.print("\n[green bold]✔ Default: [/green bold][red bold]No default model configured. Run 'ai configure' first[/red bold]")
     
 def switch_model():
     """Sets the default model in the configuration."""

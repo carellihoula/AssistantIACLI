@@ -1,6 +1,6 @@
 import argparse
 from aiassistcli.ai_generate import AIGenerator
-from aiassistcli.check_update import check_update
+from aiassistcli.check_update import check_update, remove_old_config_once
 from aiassistcli.config import configure, list_models, switch_model
 from .history import handle_history
 from .run_prompt import run_prompt
@@ -70,6 +70,7 @@ def main():
 
     if args.command is not None:
         check_update()
+        remove_old_config_once()
 
 
 if __name__ == "__main__":
