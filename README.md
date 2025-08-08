@@ -6,9 +6,21 @@
 
 **Canoaicli** is a minimalist and intelligent command-line tool. It lets you generate terminal commands from simple natural language instructions, powered by multiple AI providers such as **Google Gemini, OpenAI, Anthropic, and DeepSeek**.
 
+## ⚡️ Quick Start
+
+### ✅ Prerequisites
+
+- **Python ≥ 3.9**
+- **At least one API key** from your preferred provider:
+
+  - [OpenAI API key](https://platform.openai.com/account/api-keys)
+  - [Google Gemini API key](https://makersuite.google.com/app/apikey) _(Gemini-2.0-flash is free and set as the default model)_
+  - [Anthropic API key](https://console.anthropic.com/account/keys)
+  - [DeepSeek API key](https://platform.deepseek.com/)
+
 ## 🚀 Installation
 
-Make sure you have **Python ≥ 3.11**, then install it easily from PyPI:
+Make sure you have **Python ≥ 3.9**, then install it easily from PyPI:
 
 ```bash
 pip install canoaicli
@@ -104,6 +116,51 @@ It rewrites your question in a clearer and more precise way, without changing it
 ```bash
 ai ask --refine "find files that contain error"
 ```
+
+## ✨ Revise Command
+
+Sometimes the AI-generated command is not exactly what you need.
+With the Revise command option, you can provide additional instructions to modify the proposed command — without starting over.
+
+**Example session:**
+
+```bash
+$ ai ask --refine "delete a git branch"
+
+✨ Improved prompt: Generate the shell command to delete a Git branch.
+🧠 Query: Generate the shell command to delete a Git branch.
+
+💡 gemini suggests:
+ git branch -d branch_name
+
+? What do you want to do? (Use arrow keys)
+   1. Execute
+   2. Modify command
+   3. Show command with explanation
+ » 4. Revise command
+   5. Copy to clipboard
+   6. Exit
+```
+
+Choosing **Revise command (4)** lets you refine it step by step:
+
+```bash
+? Add more instructions for revision (leave empty to finish): force delete the branch
+
+💡 Revised command:
+ git branch -D branch_name
+```
+
+Another refinement:
+
+```bash
+? Add more instructions for revision (leave empty to finish): delete branch "feature-login"
+
+💡 Revised command:
+ git branch -D feature-login
+```
+
+Each new instruction updates the last command until you’re satisfied ✅.
 
 ## 📜 History
 
@@ -210,6 +267,8 @@ ai -h
 
 - ✨ **Prompt refinement**
   Use `--refine` to automatically improve your input prompt for better accuracy.
+
+- ✨ **Revise command**: refine and update suggested commands with new instructions.
 
 - 📜 **Command history**
   View, search, and clear your history with `ai history`.

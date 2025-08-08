@@ -8,10 +8,10 @@ CONFIG_DIR = Path.home() / ".ai-assist"
 CONFIG_PATH = CONFIG_DIR / "config.json"
 
 SUPPORTED_MODELS = {
-    "openai": ["gpt-4o", "gpt-4o-mini"],
-    "anthropic": ["claude-sonnet-4", "claude-sonnet-4",],
-    "deepseek": ["deepseek-chat", "deepseek-reasoner", "deepseek-chat-v3-0324:free"],
-    "gemini": ["gemini-2.0-flash", "gemini-2.0-pro"],
+    "openai": ["gpt-4.1-mini", "gpt-4o-mini", "gpt-4o"], # , "gpt-4o-mini"
+    # "anthropic": ["claude-sonnet-4", "claude-sonnet-4",],
+    "deepseek": ["deepseek-chat"],
+    "gemini": ["gemini-2.0-flash", "gemini-2.5-flash"],
 }
 
 DEFAULT_PROVIDER = "gemini"
@@ -70,7 +70,7 @@ def configure():
         save_config(config)
 
         console.print(
-            f"[white bold]Active model: [/white bold] [green]{DEFAULT_PROVIDER}/{DEFAULT_MODEL}[/green]"
+            f"[white bold]Active model: [/white bold] [green bold]{DEFAULT_PROVIDER}/{DEFAULT_MODEL}[/green bold]"
              " - You can now use: [bold cyan]ai ask <your prompt>[/bold cyan]"
         )
 
@@ -107,10 +107,10 @@ def list_models():
     default_model = config.get("default_model")
     if default_model:
         console.print(
-            f"\n[green]✔ Default: {default_model['provider']}/{default_model['model']}[/green]"
+            f"\n[green bold]✔ Default: {default_model['provider']}/{default_model['model']}[/green bold]"
         )
     else:
-        console.print("\n[red bold] No default model configured.[/red bold]")
+        console.print("\n[green bold]✔ Default: [/green bold][red bold]No default model configured. Run 'ai configure' first[/red bold]")
     
 def switch_model():
     """Sets the default model in the configuration."""
@@ -150,7 +150,7 @@ def switch_model():
 
     config["default_model"] = {"provider": provider, "model": model}
     save_config(config)
-    console.print(f"[green]✔ Default model set to: {provider}/{model}[/green]")
+    console.print(f"[green bold]✔ Default model set to: {provider}/{model}[/green bold]")
 
 def copy_command(command: str):
     pyperclip.copy(command)
