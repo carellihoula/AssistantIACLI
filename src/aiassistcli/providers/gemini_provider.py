@@ -1,6 +1,6 @@
 import sys
 from aiassistcli.ai_prompt import build_prompt
-import google.generativeai as genai
+from google import  genai
 from .base import AIProvider
 from rich.console import Console
 
@@ -9,13 +9,18 @@ console = Console()
 class GeminiProvider(AIProvider):
     def __init__(self, api_key: str):
         super().__init__(api_key)
-        genai.configure(api_key=api_key)
+        # genai.configure(api_key=api_key)
+        
 
     def generate(self, model: str, prompt: str, refine: bool = False):
         try:
-            model = genai.GenerativeModel(model)
+            client = genai.Client(api_key=self.api_key)
+            # model = genai.GenerativeModel(model)
             final_prompt = prompt if refine else build_prompt(prompt)
-            response = model.generate_content(final_prompt)
+            response = client.models.generate_content(
+                model=model,
+                contents=final_prompt 
+            )
             return response.text.strip()
      
         except Exception as e:

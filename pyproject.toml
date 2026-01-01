@@ -6,7 +6,7 @@ description = "A command-line AI assistant powered by multiple AI providers such
 readme = "README.md"
 requires-python = ">= 3.9"
 dependencies = [
-    "google-generativeai",
+    "google-genai",
     "questionary",
     "rich",
     "openai",
@@ -30,6 +30,9 @@ platforms = ["win-64", "linux-64", "osx-64", "osx-arm64"]
 canoaicli = { path = ".", editable = true }
 twine = "*"
 build = "*"
+pytest = "*"
+pytest-cov = "*"
+
 
 [tool.pixi.tasks]
 build = "python -m build"
