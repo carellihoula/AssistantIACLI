@@ -14,8 +14,7 @@
 - **At least one API key** from your preferred provider:
 
   - [OpenAI API key](https://platform.openai.com/account/api-keys)
-  - [Google Gemini API key](https://makersuite.google.com/app/apikey) _(Gemini-2.0-flash is free and set as the default model)_
-  - [Anthropic API key](https://console.anthropic.com/account/keys)
+  - [Google Gemini API key](https://makersuite.google.com/app/apikey)
   - [DeepSeek API key](https://platform.deepseek.com/)
 
 ## 🚀 Installation
